@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zap Messenger - Envio de Mensagens</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📱 Zap Messenger</h1>
+            <p>Sistema para envio de mensagens via API - Individual, em Massa e por Excel</p>
+        </header>
+
+        <main>
+            <!-- Seletor de modo de envio -->
+            <div class="mode-selector">
+                <button type="button" id="manualModeBtn" class="mode-btn active">📝 Envio Manual</button>
+                <button type="button" id="excelModeBtn" class="mode-btn">📊 Envio por Excel</button>
+            </div>
+
+            <!-- Formulário para envio manual -->
+            <form id="messageForm" class="message-form">
+                <div class="form-group">
+                    <label for="authToken">🔑 Token de Autorização:</label>
+                    <input 
+                        type="password" 
+                        id="authToken" 
+                        placeholder="Digite seu token Bearer" 
+                        required
+                    >
+                    <button type="button" id="toggleToken" class="toggle-btn">👁️</button>
+                </div>
+
+                <div class="form-group manual-only">
+                    <label for="numbers">📞 Números do WhatsApp:</label>
+                    <textarea 
+                        id="numbers" 
+                        rows="4" 
+                        placeholder="Digite os números separados por vírgula ou quebra de linha:\n11987654321\n21987654321\n31987654321"
+                        required
+                    ></textarea>
+                    <small>📝 Formatos aceitos: Um por linha, separados por vírgula ou ponto e vírgula<br>
+                    🇧🇷 Números brasileiros sem 55 serão automaticamente corrigidos</small>
+                    <div class="number-counter">
+                        <span id="numberCount">0</span> números detectados
+                    </div>
+                </div>
+
+                <!-- Seção para upload de Excel -->
+                <div class="form-group excel-only" style="display: none;">
+                    <label for="excelFile">📊 Arquivo Excel:</label>
+                    <div class="file-upload-area">
+                        <input type="file" id="excelFile" accept=".xlsx,.xls" class="file-input">
+                        <div class="file-upload-text">
+                            <span class="upload-icon">📁</span>
+                            <span class="upload-label">Clique para selecionar arquivo Excel</span>
+                            <small>Colunas obrigatórias: Nome, Protocolo, Numero</small>
+                        </div>
+                    </div>
+                    <div id="fileInfo" class="file-info"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">💬 Mensagem:</label>
+                    <textarea 
+                        id="message" 
+                        rows="4" 
+                        placeholder="Digite sua mensagem aqui..." 
+                        required
+                    ></textarea>
+                    <div class="excel-only" style="display: none;">
+                        <small class="variables-help">
+                            💡 <strong>Variáveis disponíveis:</strong> {nome}, {protocolo}, {numero}<br>
+                            Exemplo: "Olá {nome}, seu protocolo {protocolo} foi processado!"
+                        </small>
+                    </div>
+                    <div class="char-counter">
+                        <span id="charCount">0</span> caracteres
+                    </div>
+                </div>
+
+                <button type="submit" id="sendBtn" class="send-btn">
+                    <span class="btn-text">📤 Enviar Mensagem(ns)</span>
+                    <span class="loading" style="display: none;">⏳ Enviando...</span>
+                </button>
+            </form>
+
+            <div id="result" class="result"></div>
+            <div id="detailedResults" class="detailed-results"></div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
